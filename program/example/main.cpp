@@ -21,6 +21,12 @@ int main() {
         return 0;
     }
 
+    std::cout << "B - exit" << std::endl;
+    std::cout << "T - add hash (train)" << std::endl;
+    std::cout << "R - start/stop" << std::endl;
+    std::cout << "C - clear hash" << std::endl;
+    std::cout << "1,2,3 - num obj." << std::endl;
+
     MouseHandler iMouse;
     // создадим окно и поставим обработчик мышки
     cvNamedWindow("result", CV_WINDOW_AUTOSIZE );
