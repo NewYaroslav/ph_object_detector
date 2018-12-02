@@ -7,7 +7,7 @@ static void onMouse( int event, int x, int y, int, void* userdata) {
   if (app)
     app->onMouse(event, x, y);
 }
-// îáðàáî÷òêè ìûøè
+// Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‡Ñ‚ÐºÐ¸ Ð¼Ñ‹ÑˆÐ¸
 void MouseHandler::onMouse( int event, int x, int y) {
 
     switch (event) {
@@ -36,8 +36,8 @@ void MouseHandler::onMouse( int event, int x, int y) {
             movePosition.x = x;
             movePosition.y = y;
             if(isSetBb) {
-                // åñëè ðàíåå ìûøêîé áûëà âûáðàíà òî÷êà âåðõíåãî óãîëêà ðàìêè
-                // òî èçìåíÿåì øèðèíó è âûñîòó ðàìêè
+                // ÐµÑÐ»Ð¸ Ñ€Ð°Ð½ÐµÐµ Ð¼Ñ‹ÑˆÐºÐ¾Ð¹ Ð±Ñ‹Ð»Ð° Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð° Ñ‚Ð¾Ñ‡ÐºÐ° Ð²ÐµÑ€Ñ…Ð½ÐµÐ³Ð¾ ÑƒÐ³Ð¾Ð»ÐºÐ° Ñ€Ð°Ð¼ÐºÐ¸
+                // Ñ‚Ð¾ Ð¸Ð·Ð¼ÐµÐ½ÑÐµÐ¼ ÑˆÐ¸Ñ€Ð¸Ð½Ñƒ Ð¸ Ð²Ñ‹ÑÐ¾Ñ‚Ñƒ Ñ€Ð°Ð¼ÐºÐ¸
                 boundingBox.width = std::abs( x - boundingBox.x );
                 boundingBox.height = std::abs( y - boundingBox.y );
                 boundingBox.width = (boundingBox.width + boundingBox.height) / 2;
@@ -63,7 +63,7 @@ void MouseHandler::setWindows(std::string name) {
 }
 
 void MouseHandler::checkBb(cv::Mat& inputImage) {
-    // åñëè ðàçìåðû èçîáðàæåíèÿ ñòàëè ìåíüøå ïîëîæåíèÿ èëè ðàçìåðîâ îãðàíè÷èòåëüíîé ðàìêè
+    // ÐµÑÐ»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ñ‹ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ ÑÑ‚Ð°Ð»Ð¸ Ð¼ÐµÐ½ÑŒÑˆÐµ Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð¾Ð² Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ñ€Ð°Ð¼ÐºÐ¸
     if (boundingBox.x >= inputImage.cols) {
         boundingBox.x = inputImage.cols - 2;
     }
@@ -71,11 +71,11 @@ void MouseHandler::checkBb(cv::Mat& inputImage) {
         boundingBox.y = inputImage.rows - 2;
     }
     if (boundingBox.width < 20) {
-        // ìèíèìàëüíàÿ øèðèíà
+        // Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ ÑˆÐ¸Ñ€Ð¸Ð½Ð°
         boundingBox.width = 20;
     }
     if (boundingBox.height < 20) {
-        // ìèíèìàëüíàÿ âûñîòà
+        // Ð¼Ð¸Ð½Ð¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð²Ñ‹ÑÐ¾Ñ‚Ð°
         boundingBox.height = 20;
     }
     if ((boundingBox.x + boundingBox.width) >= inputImage.cols) {
@@ -84,7 +84,7 @@ void MouseHandler::checkBb(cv::Mat& inputImage) {
     if ((boundingBox.y + boundingBox.height) >= inputImage.rows) {
         boundingBox.height = inputImage.rows - boundingBox.y - 1;
     }
-    // åñëè ðàçìåðû èçîáðàæåíèÿ ñòàëè ìåíüøå ïîëîæåíèÿ èëè ðàçìåðîâ îãðàíè÷èòåëüíîé ðàìêè
+    // ÐµÑÐ»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ñ‹ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ ÑÑ‚Ð°Ð»Ð¸ Ð¼ÐµÐ½ÑŒÑˆÐµ Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð¾Ð² Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ñ€Ð°Ð¼ÐºÐ¸
     if ((boundingBox.x >= inputImage.cols) || (boundingBox.y >= inputImage.rows) || ((boundingBox.x + boundingBox.width) >= inputImage.cols) || ((boundingBox.height + boundingBox.y) >= inputImage.rows)) {
         boundingBox.x = 0.0; boundingBox.y = 0.0;
         boundingBox.width = (float)((int)inputImage.cols - (int)1); boundingBox.height = (float)((int)inputImage.rows - (int)1);

@@ -12,11 +12,11 @@ using namespace std;
 
 int main() {
     std::cout << "enter camera number: " << std::endl;
-    int nCamera = 0; // номер камеры
+    int nCamera = 0; // РЅРѕРјРµСЂ РєР°РјРµСЂС‹
     std::cin >> nCamera;
     cv::VideoCapture camera(nCamera);
     if(!camera.isOpened())  {
-        // если не можем открыть камеру, выводим сообщение
+        // РµСЃР»Рё РЅРµ РјРѕР¶РµРј РѕС‚РєСЂС‹С‚СЊ РєР°РјРµСЂСѓ, РІС‹РІРѕРґРёРј СЃРѕРѕР±С‰РµРЅРёРµ
         printf("Cannot open initialize webcam or video file!\n" );
         return 0;
     }
@@ -28,37 +28,37 @@ int main() {
     std::cout << "1,2,3 - num obj." << std::endl;
 
     MouseHandler iMouse;
-    // создадим окно и поставим обработчик мышки
+    // СЃРѕР·РґР°РґРёРј РѕРєРЅРѕ Рё РїРѕСЃС‚Р°РІРёРј РѕР±СЂР°Р±РѕС‚С‡РёРє РјС‹С€РєРё
     cvNamedWindow("result", CV_WINDOW_AUTOSIZE );
     iMouse.setWindows("result");
 
     const int HASH25_SIZE = 33554432;
-    static unsigned char hash25[HASH25_SIZE]; // массив перцептивных хэшей
+    static unsigned char hash25[HASH25_SIZE]; // РјР°СЃСЃРёРІ РїРµСЂС†РµРїС‚РёРІРЅС‹С… С…СЌС€РµР№
     static unsigned char meanData[256];
     memset(meanData, 0xFF, 256);
 
-    unsigned long trainHash = 0xFFFFFFFF; // перцептивный хэш для обучения
-    char nObj = 1; // номер объекта для обучения
-    int hammingDistance = 1; // максимальная дистнация хэмминга
-    double scaleMin = 0.8; // минимальный машстаб окна поиска от первоначального размера ограничительной рамки
-    double scaleMax = 1.2; // максимальный машстаб окна поиска от первоначального размера ограничительной рамки
-    double scaleStep = 0.05; // шаг масштаба
-    double stepLength = 0.05; // сдвиг окна поиска объекта в процентах от его ширины или высоты
+    unsigned long trainHash = 0xFFFFFFFF; // РїРµСЂС†РµРїС‚РёРІРЅС‹Р№ С…СЌС€ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
+    char nObj = 1; // РЅРѕРјРµСЂ РѕР±СЉРµРєС‚Р° РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ
+    int hammingDistance = 1; // РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ РґРёСЃС‚РЅР°С†РёСЏ С…СЌРјРјРёРЅРіР°
+    double scaleMin = 0.8; // РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РјР°С€СЃС‚Р°Р± РѕРєРЅР° РїРѕРёСЃРєР° РѕС‚ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕРіРѕ СЂР°Р·РјРµСЂР° РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅРѕР№ СЂР°РјРєРё
+    double scaleMax = 1.2; // РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ РјР°С€СЃС‚Р°Р± РѕРєРЅР° РїРѕРёСЃРєР° РѕС‚ РїРµСЂРІРѕРЅР°С‡Р°Р»СЊРЅРѕРіРѕ СЂР°Р·РјРµСЂР° РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅРѕР№ СЂР°РјРєРё
+    double scaleStep = 0.05; // С€Р°Рі РјР°СЃС€С‚Р°Р±Р°
+    double stepLength = 0.05; // СЃРґРІРёРі РѕРєРЅР° РїРѕРёСЃРєР° РѕР±СЉРµРєС‚Р° РІ РїСЂРѕС†РµРЅС‚Р°С… РѕС‚ РµРіРѕ С€РёСЂРёРЅС‹ РёР»Рё РІС‹СЃРѕС‚С‹
 
-    const int MAX_HASH_BIT = 25; // количество бит в хэше
-    cv::Mat inputImage; // изображение на входе
+    const int MAX_HASH_BIT = 25; // РєРѕР»РёС‡РµСЃС‚РІРѕ Р±РёС‚ РІ С…СЌС€Рµ
+    cv::Mat inputImage; // РёР·РѕР±СЂР°Р¶РµРЅРёРµ РЅР° РІС…РѕРґРµ
 
-    camera >> inputImage; // получаем изображение от камеры
+    camera >> inputImage; // РїРѕР»СѓС‡Р°РµРј РёР·РѕР±СЂР°Р¶РµРЅРёРµ РѕС‚ РєР°РјРµСЂС‹
 
-    cv::Mat inputGrayImage; // серое изображение
-    cv::Mat imageIntegral(inputImage.cols,inputImage.rows,CV_32FC1); // интегральное изображение
-    cv::Mat imageTrainHash; // фрагмент для запоминания
+    cv::Mat inputGrayImage; // СЃРµСЂРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+    cv::Mat imageIntegral(inputImage.cols,inputImage.rows,CV_32FC1); // РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+    cv::Mat imageTrainHash; // С„СЂР°РіРјРµРЅС‚ РґР»СЏ Р·Р°РїРѕРјРёРЅР°РЅРёСЏ
 
-    const int HASH_BOX = 5; // ширина и высота окна хэша 5 пикселей
-    const int TRAIN_BOX = 30; // ширина и высота окна для отображения хэша в ЧБ
+    const int HASH_BOX = 5; // С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕРєРЅР° С…СЌС€Р° 5 РїРёРєСЃРµР»РµР№
+    const int TRAIN_BOX = 30; // С€РёСЂРёРЅР° Рё РІС‹СЃРѕС‚Р° РѕРєРЅР° РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С…СЌС€Р° РІ Р§Р‘
     PerceptualHashObjectDetector::showHash32(trainHash, imageTrainHash, HASH_BOX, HASH_BOX, TRAIN_BOX, TRAIN_BOX, true);
 
-    cv::Rect bbTrainHash; // ограничительная рамка
+    cv::Rect bbTrainHash; // РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅР°СЏ СЂР°РјРєР°
     bbTrainHash.width = TRAIN_BOX;
     bbTrainHash.height = TRAIN_BOX;
 
@@ -67,10 +67,10 @@ int main() {
     while(1) {
         camera >> inputImage;
 
-        cvtColor( inputImage, inputGrayImage, CV_BGR2GRAY ); // cоздаем ЧБ изображение
+        cvtColor( inputImage, inputGrayImage, CV_BGR2GRAY ); // cРѕР·РґР°РµРј Р§Р‘ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
         cv::integral(inputGrayImage, imageIntegral);
 
-        // делаем проверку ограничительных рамок
+        // РґРµР»Р°РµРј РїСЂРѕРІРµСЂРєСѓ РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅС‹С… СЂР°РјРѕРє
         iMouse.checkBb(inputImage);
         if(iMouse.boundingBox.x < 1) iMouse.boundingBox.x = 1;
         if(iMouse.boundingBox.y < 1) iMouse.boundingBox.y = 1;
@@ -79,40 +79,40 @@ int main() {
 
         bbTrainHash.x = iMouse.boundingBox.x + iMouse.boundingBox.width;
         bbTrainHash.y = iMouse.boundingBox.y;
-        // получаем перцептивный хэш
+        // РїРѕР»СѓС‡Р°РµРј РїРµСЂС†РµРїС‚РёРІРЅС‹Р№ С…СЌС€
         trainHash = PerceptualHashObjectDetector::getHash32(inputGrayImage, iMouse.boundingBox, HASH_BOX, HASH_BOX);
-        PerceptualHashObjectDetector::showHash32(trainHash, imageTrainHash, HASH_BOX, HASH_BOX, TRAIN_BOX, TRAIN_BOX, true); // получаем изображение перцептивного хэша
+        PerceptualHashObjectDetector::showHash32(trainHash, imageTrainHash, HASH_BOX, HASH_BOX, TRAIN_BOX, TRAIN_BOX, true); // РїРѕР»СѓС‡Р°РµРј РёР·РѕР±СЂР°Р¶РµРЅРёРµ РїРµСЂС†РµРїС‚РёРІРЅРѕРіРѕ С…СЌС€Р°
 
-        // выводим значение перцептивного хэша на экран
+        // РІС‹РІРѕРґРёРј Р·РЅР°С‡РµРЅРёРµ РїРµСЂС†РµРїС‚РёРІРЅРѕРіРѕ С…СЌС€Р° РЅР° СЌРєСЂР°РЅ
         char texthash[512];
         sprintf(texthash, "hash: %8.8X", trainHash);
         cv::putText(inputImage, texthash, cv::Point(iMouse.boundingBox.x, iMouse.boundingBox.y - 10), CV_FONT_HERSHEY_PLAIN, 0.9,cv::Scalar(0, 0, 255), 1, 8, 0);
 
-        cv::rectangle(inputImage, iMouse.boundingBox, cv::Scalar(255, 0, 0)); // нарисуем ограничительную рамку
-        // нарисуем перцептивный хэш
+        cv::rectangle(inputImage, iMouse.boundingBox, cv::Scalar(255, 0, 0)); // РЅР°СЂРёСЃСѓРµРј РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅСѓСЋ СЂР°РјРєСѓ
+        // РЅР°СЂРёСЃСѓРµРј РїРµСЂС†РµРїС‚РёРІРЅС‹Р№ С…СЌС€
         cv::Mat roi(inputImage, bbTrainHash);
         imageTrainHash.copyTo(roi);
         roi.release();
 
-        if(isRun) { // если детектор объектов работает
-            std::vector<cv::Rect> vBb; // вектор содержащий ограничительные рамки объектов
-            std::vector<unsigned long> vHash; // вектор содержаший хэши объектов
-            std::vector<cv::Scalar> vColor; // вектор содержащий разные цвета найденных объектов
+        if(isRun) { // РµСЃР»Рё РґРµС‚РµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ СЂР°Р±РѕС‚Р°РµС‚
+            std::vector<cv::Rect> vBb; // РІРµРєС‚РѕСЂ СЃРѕРґРµСЂР¶Р°С‰РёР№ РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅС‹Рµ СЂР°РјРєРё РѕР±СЉРµРєС‚РѕРІ
+            std::vector<unsigned long> vHash; // РІРµРєС‚РѕСЂ СЃРѕРґРµСЂР¶Р°С€РёР№ С…СЌС€Рё РѕР±СЉРµРєС‚РѕРІ
+            std::vector<cv::Scalar> vColor; // РІРµРєС‚РѕСЂ СЃРѕРґРµСЂР¶Р°С‰РёР№ СЂР°Р·РЅС‹Рµ С†РІРµС‚Р° РЅР°Р№РґРµРЅРЅС‹С… РѕР±СЉРµРєС‚РѕРІ
             vColor.push_back(cv::Scalar(0, 255, 0));
             vColor.push_back(cv::Scalar(0, 255, 255));
             vColor.push_back(cv::Scalar(0, 0, 255));
             vColor.push_back(cv::Scalar(255, 255, 0));
             vColor.push_back(cv::Scalar(255, 255, 255));
-            // ищем объекты
+            // РёС‰РµРј РѕР±СЉРµРєС‚С‹
             PerceptualHashObjectDetector::searhIntegralImage(imageIntegral,
                 hash25, meanData,
                 scaleMin, scaleMax, scaleStep, stepLength,
                 iMouse.boundingBox.width, iMouse.boundingBox.height, vBb, vHash);
-            // отображаем найденное
+            // РѕС‚РѕР±СЂР°Р¶Р°РµРј РЅР°Р№РґРµРЅРЅРѕРµ
             for(int i = 0; i < vBb.size(); ++i) {
                 int hashArrayData = hash25[vHash[i]];
                 int numColor = hashArrayData == 0x01 ? 1 : (hashArrayData == 0x02 ? 2 : (hashArrayData == 0x04 ? 3 : 4));
-                cv::rectangle(inputImage, vBb[i], vColor[numColor]); // нарисуем ограничительную рамку
+                cv::rectangle(inputImage, vBb[i], vColor[numColor]); // РЅР°СЂРёСЃСѓРµРј РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅСѓСЋ СЂР°РјРєСѓ
                 char texthash[512];
                 sprintf(texthash, "%8.8X", vHash[i]);
                 cv::putText(inputImage, texthash, cv::Point(vBb[i].x, vBb[i].y - 10), CV_FONT_HERSHEY_PLAIN, 1.0,vColor[numColor], 1, 8, 0);
@@ -122,33 +122,33 @@ int main() {
         cv::imshow("result", inputImage);
 
         char symbol = cv::waitKey(20);
-        if(symbol == '1' || symbol == '1') { // выбрать для обучения номер объекта 1
+        if(symbol == '1' || symbol == '1') { // РІС‹Р±СЂР°С‚СЊ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ РЅРѕРјРµСЂ РѕР±СЉРµРєС‚Р° 1
             nObj = 1; printf("set obj 1\n");
         } else
-        if(symbol == '2' || symbol == '2') { // выбрать для обучения номер объекта 2
+        if(symbol == '2' || symbol == '2') { // РІС‹Р±СЂР°С‚СЊ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ РЅРѕРјРµСЂ РѕР±СЉРµРєС‚Р° 2
             nObj = 2; printf("set obj 2\n");
         } else
-        if(symbol == '3' || symbol == '3') { // выбрать для обучения номер объекта 3
+        if(symbol == '3' || symbol == '3') { // РІС‹Р±СЂР°С‚СЊ РґР»СЏ РѕР±СѓС‡РµРЅРёСЏ РЅРѕРјРµСЂ РѕР±СЉРµРєС‚Р° 3
             nObj = 4; printf("set obj 3\n");
         } else
-        if(symbol == 'B' || symbol == 'b') { // выйти из программы
+        if(symbol == 'B' || symbol == 'b') { // РІС‹Р№С‚Рё РёР· РїСЂРѕРіСЂР°РјРјС‹
             break;
         } else
-        if(symbol == 'T' || symbol == 't') { // запомнить обучающую выборку
+        if(symbol == 'T' || symbol == 't') { // Р·Р°РїРѕРјРЅРёС‚СЊ РѕР±СѓС‡Р°СЋС‰СѓСЋ РІС‹Р±РѕСЂРєСѓ
             PerceptualHashObjectDetector::getNoise32(trainHash, hash25, nObj, hammingDistance, MAX_HASH_BIT);
             printf("add hash: %8.8X\n", trainHash);
         } else
-        if(symbol == 'R' || symbol == 'r') { // запустить или остановить детектор объектов
+        if(symbol == 'R' || symbol == 'r') { // Р·Р°РїСѓСЃС‚РёС‚СЊ РёР»Рё РѕСЃС‚Р°РЅРѕРІРёС‚СЊ РґРµС‚РµРєС‚РѕСЂ РѕР±СЉРµРєС‚РѕРІ
             isRun = !isRun;
             if(isRun) printf("hash detector on\n");
             else printf("hash detector off\n");
         } else
-        if(symbol == 'C' || symbol == 'c') { // очистить цели
+        if(symbol == 'C' || symbol == 'c') { // РѕС‡РёСЃС‚РёС‚СЊ С†РµР»Рё
             memset(hash25, 0, HASH25_SIZE);
             printf("clear hash\n");
         }
     }
-    // освобождаем память
+    // РѕСЃРІРѕР±РѕР¶РґР°РµРј РїР°РјСЏС‚СЊ
     inputImage.release();
     imageIntegral.release();
     imageTrainHash.release();

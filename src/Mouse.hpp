@@ -6,14 +6,14 @@
 #include "opencv2/core.hpp"
 #include "opencv2/opencv.hpp"
 
-/**@brief Класс обработчика мыши.
+/**@brief РљР»Р°СЃСЃ РѕР±СЂР°Р±РѕС‚С‡РёРєР° РјС‹С€Рё.
     @version 2.0
     @date 02.11.17
     @code
-    pcWin.setWindows("image"); // задать имя рабочего окна а также запустить обработчик мыши
+    pcWin.setWindows("image"); // Р·Р°РґР°С‚СЊ РёРјСЏ СЂР°Р±РѕС‡РµРіРѕ РѕРєРЅР° Р° С‚Р°РєР¶Рµ Р·Р°РїСѓСЃС‚РёС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РјС‹С€Рё
     //...
     cv:;Mat image;
-    cv::rectangle(image, pcWin.boundingBox, cv::Scalar(50, 50, 50), 1); // нарисовать ограничительную рамку
+    cv::rectangle(image, pcWin.boundingBox, cv::Scalar(50, 50, 50), 1); // РЅР°СЂРёСЃРѕРІР°С‚СЊ РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅСѓСЋ СЂР°РјРєСѓ
     cv::imshow("image", image);
     @endcode
 */
@@ -22,21 +22,21 @@ class MouseHandler {
 
 public:
     void onMouse( int event, int x, int y);
-    std::string winname; ///< имя окна
+    std::string winname; ///< РёРјСЏ РѕРєРЅР°
     cv::Point position;
     cv::Point movePosition;
     cv::Rect boundingBox;
     bool isSetBb = false;
     bool isPush = 0;
     bool isPositionSet = 0;
-    /**@brief Инициализация класса с параметрами по умолчанию.
+    /**@brief РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РєР»Р°СЃСЃР° СЃ РїР°СЂР°РјРµС‚СЂР°РјРё РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ.
     */
     MouseHandler();
 
     ~MouseHandler();
 
-    /**@brief Создать окно и запустить обработчик мыши
-        @param[in] name имя окна
+    /**@brief РЎРѕР·РґР°С‚СЊ РѕРєРЅРѕ Рё Р·Р°РїСѓСЃС‚РёС‚СЊ РѕР±СЂР°Р±РѕС‚С‡РёРє РјС‹С€Рё
+        @param[in] name РёРјСЏ РѕРєРЅР°
     */
     void setWindows(std::string name);
 

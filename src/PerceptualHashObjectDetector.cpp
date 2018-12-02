@@ -1,7 +1,7 @@
 /*
 * object detector based on a perceptual hash.
 *
-* Copyright (c) 2018 Yaroslav Barabanov. Email: elektroyar@yandex.ru
+* Copyright (c) 2018 Elektro Yar. Email: git.electroyar@gmail.com
 *
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ namespace PerceptualHashObjectDetector {
         8192,16384,32768,65536,131072,262144,524288,1048576,2097152,4194304,8388608,16777216,
         33554432,67108864,134217728,268435456,536870912,1073741824,2147483648};
 
-    // функция принимает на вход интегральное изображение
+    // С„СѓРЅРєС†РёСЏ РїСЂРёРЅРёРјР°РµС‚ РЅР° РІС…РѕРґ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
     static void threadSearhIntegralImage(cv::Mat& inputImage, unsigned char* dataHash, unsigned char* dataMean,
         double scaleMin, double scaleMax, double scaleStep, double stepValue, double stepOffset,
         int w, int h,
@@ -38,25 +38,25 @@ namespace PerceptualHashObjectDetector {
         rect.clear();
         rectHash.clear();
         const int hashStandartWH = 5;
-        double scale = scaleMin; // минимальный масштаб
+        double scale = scaleMin; // РјРёРЅРёРјР°Р»СЊРЅС‹Р№ РјР°СЃС€С‚Р°Р±
         int rectW = w * scale;
         int rectH = h * scale;
         int const imageWidth(inputImage.cols), imageHeight(inputImage.rows);
-        unsigned long hashData; // хэш
-        float mean; // средняя яркость
-        float data; // яркость области в сетке 5 х 5
-        float numPixRect; // площадь ограничительой рамки, нужна для нахождения mean
-        //short x2,y3; // угловые точки ограничительной рамки
-        short rectX2, rectY3; // угловые точки области в сетке 5 х 5
-        int i = 0; // инкремент для данных хэша
+        unsigned long hashData; // С…СЌС€
+        float mean; // СЃСЂРµРґРЅСЏСЏ СЏСЂРєРѕСЃС‚СЊ
+        float data; // СЏСЂРєРѕСЃС‚СЊ РѕР±Р»Р°СЃС‚Рё РІ СЃРµС‚РєРµ 5 С… 5
+        float numPixRect; // РїР»РѕС‰Р°РґСЊ РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРѕР№ СЂР°РјРєРё, РЅСѓР¶РЅР° РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ mean
+        //short x2,y3; // СѓРіР»РѕРІС‹Рµ С‚РѕС‡РєРё РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅРѕР№ СЂР°РјРєРё
+        short rectX2, rectY3; // СѓРіР»РѕРІС‹Рµ С‚РѕС‡РєРё РѕР±Р»Р°СЃС‚Рё РІ СЃРµС‚РєРµ 5 С… 5
+        int i = 0; // РёРЅРєСЂРµРјРµРЅС‚ РґР»СЏ РґР°РЅРЅС‹С… С…СЌС€Р°
 
         while(1) {
             if (scale >= scaleMax)
                 break;
             numPixRect = rectW * rectH;
-            short incX = rectW / hashStandartWH; // прирост по X
-            short incY = rectH / hashStandartWH; // прирост по Y
-            float numPixRect5x5 = incX * incY; // площадь ограничительой рамки, нужна для нахождения mean
+            short incX = rectW / hashStandartWH; // РїСЂРёСЂРѕСЃС‚ РїРѕ X
+            short incY = rectH / hashStandartWH; // РїСЂРёСЂРѕСЃС‚ РїРѕ Y
+            float numPixRect5x5 = incX * incY; // РїР»РѕС‰Р°РґСЊ РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРѕР№ СЂР°РјРєРё, РЅСѓР¶РЅР° РґР»СЏ РЅР°С…РѕР¶РґРµРЅРёСЏ mean
             int incYx5 = incY * hashStandartWH;
             int incXx5 = incX * hashStandartWH;
 
@@ -81,11 +81,11 @@ namespace PerceptualHashObjectDetector {
                     mean = mean / numPixRect;
 
                     if (!dataMean[(unsigned char)mean]) {
-                        continue; // если средняя яркость участкая изображения является запрещенной, то пропустим
+                        continue; // РµСЃР»Рё СЃСЂРµРґРЅСЏСЏ СЏСЂРєРѕСЃС‚СЊ СѓС‡Р°СЃС‚РєР°СЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ СЏРІР»СЏРµС‚СЃСЏ Р·Р°РїСЂРµС‰РµРЅРЅРѕР№, С‚Рѕ РїСЂРѕРїСѓСЃС‚РёРј
                     }
 
                     int const maxX = x + incXx5;
-                    // считаем хэш участкая изображения
+                    // СЃС‡РёС‚Р°РµРј С…СЌС€ СѓС‡Р°СЃС‚РєР°СЏ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
                     i = 0;
                     hashData = 0;
                     for (short _y = y; _y < maxY; _y += incY) {
@@ -101,16 +101,16 @@ namespace PerceptualHashObjectDetector {
                             i++;
                         }
                     }
-                    // если хэш существует
+                    // РµСЃР»Рё С…СЌС€ СЃСѓС‰РµСЃС‚РІСѓРµС‚
                     if (dataHash[hashData]) {
                         cv::Rect rectData(x > 0 ? x - 1 : 0, y > 0 ? y - 1 : 0, rectW, rectH);
-                        // загрузим рамку и флаг рамки
+                        // Р·Р°РіСЂСѓР·РёРј СЂР°РјРєСѓ Рё С„Р»Р°Рі СЂР°РјРєРё
                         rect.push_back(rectData);
                         rectHash.push_back(hashData);
                     }
                 }
             }
-            // увеличим масштаб
+            // СѓРІРµР»РёС‡РёРј РјР°СЃС€С‚Р°Р±
             scale += scaleStep;
             rectW = ceil(scale * w);
             rectH = ceil(scale * h);
@@ -118,7 +118,7 @@ namespace PerceptualHashObjectDetector {
         }
     }
 
-    // функция принимает на вход интегральное изображение
+    // С„СѓРЅРєС†РёСЏ РїСЂРёРЅРёРјР°РµС‚ РЅР° РІС…РѕРґ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
     void searhIntegralImage(cv::Mat& inputImage, unsigned char* dataHash, unsigned char* dataMean,
         double scaleMin, double scaleMax, double scaleStep, double stepValue,
         int w, int h,
@@ -127,13 +127,13 @@ namespace PerceptualHashObjectDetector {
         rectHash.clear();
         unsigned int n = std::thread::hardware_concurrency();
         if (n < 2) {
-            // запускаем один поток с нулевым сдвигом поискового окна
+            // Р·Р°РїСѓСЃРєР°РµРј РѕРґРёРЅ РїРѕС‚РѕРє СЃ РЅСѓР»РµРІС‹Рј СЃРґРІРёРіРѕРј РїРѕРёСЃРєРѕРІРѕРіРѕ РѕРєРЅР°
             threadSearhIntegralImage(inputImage, dataHash, dataMean,
                                      scaleMin, scaleMax, scaleStep, stepValue, 0.0,
                                      w, h,
                                      rect, rectHash);
         } else {
-            std::thread threadArray[n]; // создаем массив потоков
+            std::thread threadArray[n]; // СЃРѕР·РґР°РµРј РјР°СЃСЃРёРІ РїРѕС‚РѕРєРѕРІ
             std::vector<std::vector<cv::Rect>> rectArray(n);
             std::vector<std::vector<unsigned long>> rectHashArray(n);
             double newStepValue = stepValue * n;
@@ -160,7 +160,7 @@ namespace PerceptualHashObjectDetector {
     } // searhIntegralImage
 
 
-    // функция возвращает хэш интегрального изображения или обычного изображения
+    // С„СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ С…СЌС€ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РёР»Рё РѕР±С‹С‡РЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
     unsigned long getHash32(cv::Mat& inputImage, cv::Rect& rect, int wHash, int hHash) {
         if ((wHash * hHash) > 32) {
             printf("Error getHashImage: hash size is larger than 32 bits.");
@@ -192,7 +192,7 @@ namespace PerceptualHashObjectDetector {
 
         short x2,y3;
         //int const imageWidth(image.cols), imageHeight(image.rows);
-        // точки прямоугольника
+        // С‚РѕС‡РєРё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
         x2 = rect.x + rect.width - 1;
         y3 = rect.y + rect.height - 1;
 
@@ -236,7 +236,7 @@ namespace PerceptualHashObjectDetector {
         return hashImage;
     }
 
-    // функция возвращает хэш интегрального изображения или обычного изображения
+    // С„СѓРЅРєС†РёСЏ РІРѕР·РІСЂР°С‰Р°РµС‚ С…СЌС€ РёРЅС‚РµРіСЂР°Р»СЊРЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ РёР»Рё РѕР±С‹С‡РЅРѕРіРѕ РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
     unsigned long getHash32(cv::Mat& inputImage, cv::Rect& rect, int wHash, int hHash, unsigned char* outMean) {
         if ((wHash * hHash) > 32) {
             printf("Error getHashImage: hash size is larger than 32 bits.");
@@ -268,7 +268,7 @@ namespace PerceptualHashObjectDetector {
 
         short x2,y3;
         //int const imageWidth(image.cols), imageHeight(image.rows);
-        // точки прямоугольника
+        // С‚РѕС‡РєРё РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєР°
         x2 = rect.x + rect.width - 1;
         y3 = rect.y + rect.height - 1;
 
@@ -280,21 +280,21 @@ namespace PerceptualHashObjectDetector {
         mean = mean / kMean;
         *outMean = (unsigned char)mean;
 
-        float data; // яркость одного пикселя сетки wHash * hHash
-        short incX = rect.width / wHash; // инкремент по оси X
+        float data; // СЏСЂРєРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ РїРёРєСЃРµР»СЏ СЃРµС‚РєРё wHash * hHash
+        short incX = rect.width / wHash; // РёРЅРєСЂРµРјРµРЅС‚ РїРѕ РѕСЃРё X
         short incY = rect.height / hHash;
         if (incX == 0 || incY == 0 ) {
             printf("Error getHashImage: width or height of the bounding box is too small.");
             return 0;
         }
-        float kMeanShRect = incX * incY; // количесвто точек на пиксель сетки
-        short rectX2, rectY3; // точки ограничительной рамки
-        unsigned long hashImage = 0; // хэш
+        float kMeanShRect = incX * incY; // РєРѕР»РёС‡РµСЃРІС‚Рѕ С‚РѕС‡РµРє РЅР° РїРёРєСЃРµР»СЊ СЃРµС‚РєРё
+        short rectX2, rectY3; // С‚РѕС‡РєРё РѕРіСЂР°РЅРёС‡РёС‚РµР»СЊРЅРѕР№ СЂР°РјРєРё
+        unsigned long hashImage = 0; // С…СЌС€
 
-        int i = 0; // позиция бита хэша
+        int i = 0; // РїРѕР·РёС†РёСЏ Р±РёС‚Р° С…СЌС€Р°
 
-        int const maxY = rect.y + incY * hHash - 1; // максимальное значение Y на изображении
-        int const maxX = rect.x + incX * wHash - 1; // максимальное значение X на изображении
+        int const maxY = rect.y + incY * hHash - 1; // РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ Y РЅР° РёР·РѕР±СЂР°Р¶РµРЅРёРё
+        int const maxX = rect.x + incX * wHash - 1; // РјР°РєСЃРёРјР°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ X РЅР° РёР·РѕР±СЂР°Р¶РµРЅРёРё
 
         for (short y = rect.y - 1; y < maxY; y += incY) {
             rectY3 = y + incY;
@@ -313,7 +313,7 @@ namespace PerceptualHashObjectDetector {
         return hashImage;
     }
 
-    // рекурсивная функция для создания шума в пределах расстояния Хэмминга.
+    // СЂРµРєСѓСЂСЃРёРІРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ С€СѓРјР° РІ РїСЂРµРґРµР»Р°С… СЂР°СЃСЃС‚РѕСЏРЅРёСЏ РҐСЌРјРјРёРЅРіР°.
     static void _getNoise32(unsigned long hashImage, unsigned char* hashArray, unsigned char hashData, unsigned char start, unsigned char k, unsigned char maxBit) {
         if (!k)
             return;
@@ -369,7 +369,7 @@ namespace PerceptualHashObjectDetector {
             image = resizeImage.clone();
         } else {
             cv::Mat colorImage;
-            cv::cvtColor(resizeImage, colorImage, CV_GRAY2BGR ); // делаем изображение цветным
+            cv::cvtColor(resizeImage, colorImage, CV_GRAY2BGR ); // РґРµР»Р°РµРј РёР·РѕР±СЂР°Р¶РµРЅРёРµ С†РІРµС‚РЅС‹Рј
             image = colorImage.clone();
             colorImage.release();
         }
